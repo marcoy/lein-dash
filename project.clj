@@ -2,12 +2,14 @@
 
   :description "Generated docsets from Codox"
 
-  :url "http://example.com/FIXME"
+  :url "http://www.marcoyuen.com"
 
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
   :dependencies [[codox "0.8.11"]
                  [enlive "1.1.5"]]
+
+  :min-lein-version "2.5.0"
 
   :eval-in-leiningen true)

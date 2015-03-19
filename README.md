@@ -20,7 +20,7 @@ FIXME: and add an example usage that actually makes sense:
 
 ## License
 
-Copyright © 2015 FIXME
+Copyright © 2015 Marco Yuen <marcoy@gmail.com>
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.

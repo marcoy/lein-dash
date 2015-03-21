@@ -9,14 +9,14 @@
 (defn namespace-info [node]
   (if-some [name-node (selectf node [[:h2 :#top]])]
     {:name (enlive/text name-node)
-     :type "namespace"
+     :type "Namespace"
      :path (str "#" (id-attr node))}))
 
 (defn fn-info [node]
   (if (and (not (selectf node [(enlive/has [:h4])]))
            (selectf node [:div.usage :> :code]))
     {:name (enlive/text (selectf node [:h3]))
-     :type "function"
+     :type "Function"
      :path (str "#" (id-attr node))}))
 
 (defn var-info [node]
@@ -24,26 +24,26 @@
            (not (selectf node [(enlive/has [:h4])]))
            (not (selectf node [[:h2 :#top]])))
     {:name (enlive/text (selectf node [:h3]))
-     :type "variable"
+     :type "Variable"
      :path (str "#" (id-attr node))}))
 
 (defn protocol-info [node]
   (if-some [type-node (selectf node [[:h4.type]])]
     (if (= (enlive/text type-node) "protocol")
       {:name (enlive/text (selectf node [:h3]))
-       :type "protocol"
+       :type "Protocol"
        :path (str "#" (id-attr node))})))
 
 (defn macro-info [node]
   (if-some [type-node (selectf node [[:h4.type]])]
     (if (= (enlive/text type-node) "macro")
       {:name (enlive/text (selectf node [:h3]))
-       :type "macro"
+       :type "Macro"
        :path (str "#" (id-attr node))})))
 
 (defn multimethod-info [node]
   (if-some [type-node (selectf node [[:h4.type]])]
     (if (= (enlive/text type-node) "multimethod")
       {:name (enlive/text (selectf node [:h3]))
-       :type "function"
+       :type "Function"
        :path (str "#" (id-attr node))})))

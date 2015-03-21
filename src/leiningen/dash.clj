@@ -22,11 +22,12 @@
           files-filter (FileFilterUtils/and
                          (into-array IOFileFilter [(WildcardFileFilter. "*.html")
                                                    (NotFileFilter. (NameFileFilter. "index.html"))]))
-          files-iter (FileUtils/iterateFiles doc-base-dir files-filter TrueFileFilter/TRUE)]
+          files (iterator-seq (FileUtils/iterateFiles doc-base-dir files-filter TrueFileFilter/TRUE))]
       (info "Generating docset ...")
       (do
         (-> (create-docset-structure project)
             (copy-docs doc-base-dir)
+            (transform-docset-html)
             (create-plist project)
             (create-db)
-            (process-info (mapcat parse-file (iterator-seq files-iter))))))))
+            (process-info (mapcat parse-file files)))))))

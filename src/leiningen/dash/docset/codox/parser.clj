@@ -1,4 +1,4 @@
-(ns leiningen.docset.codox.parser
+(ns leiningen.dash.docset.codox.parser
   (:require [net.cgrand.enlive-html :as enlive]))
 
 (def selectf (comp first enlive/select))
@@ -39,4 +39,11 @@
     (if (= (enlive/text type-node) "macro")
       {:name (enlive/text (selectf node [:h3]))
        :type "macro"
+       :path (str "#" (id-attr node))})))
+
+(defn multimethod-info [node]
+  (if-some [type-node (selectf node [[:h4.type]])]
+    (if (= (enlive/text type-node) "multimethod")
+      {:name (enlive/text (selectf node [:h3]))
+       :type "function"
        :path (str "#" (id-attr node))})))

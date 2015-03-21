@@ -1,4 +1,4 @@
-(defproject lein-dash "0.1.1-SNAPSHOT"
+(defproject lein-dash "0.1.1"
 
   :description "Generated docsets from Codox"
 

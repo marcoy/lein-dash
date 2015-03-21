@@ -7,7 +7,7 @@ A Leiningen plugin to generate docset for [Dash](http://kapeli.com/dash), and
 
 ## Usage
 
-Put `[lein-dash "0.1.0-SNAPSHOT"]` into the `:plugins` vector of your project.clj.
+Put `[lein-dash "0.1.1"]` into the `:plugins` vector of your project.clj.
 Then, run:
 
     $ lein dash

@@ -11,7 +11,8 @@
                                              TrueFileFilter
                                              WildcardFileFilter]
            [org.apache.commons.io FilenameUtils
-                                  FileUtils]))
+                                  FileUtils
+                                  IOUtils]))
 
 (defqueries "docset.sql")
 
@@ -54,7 +55,7 @@
 (defn create-plist [docset-dir project]
   (let [project-name (:name project)
         plist (io/file (.getPath docset-dir) ".." ".." "Info.plist")
-        plist-tpl (FileUtils/readFileToString (io/file (io/resource "Info.plist")) "UTF-8")]
+        plist-tpl (IOUtils/toString (io/input-stream (io/resource "Info.plist")) "UTF-8")]
     (FileUtils/writeStringToFile
       plist
       (format plist-tpl project-name project-name "clojure")

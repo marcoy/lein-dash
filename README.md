@@ -1,5 +1,7 @@
 # lein-dash
 
+[![Clojars Project](http://clojars.org/lein-dash/latest-version.svg)](http://clojars.org/lein-dash)
+
 A Leiningen plugin to generate docset for [Dash](http://kapeli.com/dash), and
 [Zeal](http://zealdocs.org/).
 

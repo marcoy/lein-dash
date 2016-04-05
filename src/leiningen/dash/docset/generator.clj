@@ -17,11 +17,9 @@
 (defqueries "docset.sql")
 
 (defn db-spec [path]
-  {
-   :classname   "org.sqlite.JDBC"
+  {:classname "org.sqlite.JDBC"
    :subprotocol "sqlite"
-   :subname     path
-  })
+   :subname path})
 
 (defn some-info [node fns]
   (let [[f & fs] fns]

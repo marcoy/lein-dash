@@ -62,12 +62,11 @@
 
 (defn create-db [docset-dir]
   (let [db (io/file (.getPath docset-dir) ".." "docSet.dsidx")]
-    (do
-      (if (.exists db)
-        (FileUtils/deleteQuietly db))
-      (create-table! (db-spec (.getPath db)))
-      (create-index! (db-spec (.getPath db)))
-      db)))
+    (if (.exists db)
+      (FileUtils/deleteQuietly db))
+    (create-table! (db-spec (.getPath db)))
+    (create-index! (db-spec (.getPath db)))
+    db))
 
 (defn process-info [db-path infos]
   (let [spec (db-spec (.getPath db-path))]

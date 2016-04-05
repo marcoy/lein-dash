@@ -2,7 +2,7 @@
   (:require [clojure.pprint :refer [pprint]]
             [clojure.java.io :as io]
             [leiningen.core.main :refer :all]
-            [leiningen.doc :as codox]
+            [leiningen.codox :as codox]
             [leiningen.dash.docset.generator :refer :all])
   (:import [org.apache.commons.io.filefilter FileFilterUtils
                                              IOFileFilter
@@ -17,7 +17,7 @@
   [project & args]
   (do
     (info "Generating documentation with Codox ...")
-    (codox/doc project)
+    (codox/codox project)
     (let [doc-base-dir (io/file (get-in project [:codox :output-dir] "doc"))
           files-filter (FileFilterUtils/and
                          (into-array IOFileFilter [(WildcardFileFilter. "*.html")

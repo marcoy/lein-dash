@@ -3,14 +3,16 @@
             [clojure.java.io :as io]
             [leiningen.core.main :refer :all]
             [leiningen.codox :as codox]
-            [leiningen.dash.docset.generator :refer :all])
-  (:import [org.apache.commons.io.filefilter FileFilterUtils
-                                             IOFileFilter
-                                             NameFileFilter
-                                             NotFileFilter
-                                             TrueFileFilter
-                                             WildcardFileFilter]
-           [org.apache.commons.io FileUtils]))
+            [leiningen.dash.docset.generator :refer :all]
+            [clojure.string :as s]))
+
+(defn ^:private html-files
+  "Get all the non-index HTML files at a given base."
+  [base-dir]
+  (filter (fn [f] (let [name (.getName f)]
+                    (and (s/ends-with? name "html")
+                         (not (s/ends-with? name "index.html")))))
+          (file-seq base-dir)))
 
 (defn dash
   "Generate docset using Codox"
@@ -18,11 +20,7 @@
   (do
     (info "Generating documentation with Codox ...")
     (codox/codox project)
-    (let [doc-base-dir (io/file (get-in project [:codox :output-dir] "doc"))
-          files-filter (FileFilterUtils/and
-                         (into-array IOFileFilter [(WildcardFileFilter. "*.html")
-                                                   (NotFileFilter. (NameFileFilter. "index.html"))]))
-          files (iterator-seq (FileUtils/iterateFiles doc-base-dir files-filter TrueFileFilter/TRUE))]
+    (let [doc-base-dir (io/file (get-in project [:codox :output-dir] "doc"))]
       (info "Generating docset ...")
       (do
         (-> (create-docset-structure project)
@@ -30,4 +28,4 @@
             (transform-docset-html)
             (create-plist project)
             (create-db)
-            (process-info (mapcat parse-file files)))))))
+            (process-info (mapcat parse-file (html-files doc-base-dir))))))))

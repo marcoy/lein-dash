@@ -19,7 +19,7 @@
   [project & args]
   (info "Generating documentation with Codox ...")
   (codox/codox project)
-  (let [doc-base-dir (io/file (get-in project [:codox :output-dir] "doc"))]
+  (let [doc-base-dir (io/file (get-in project [:codox :output-dir] "target/doc"))]
     (info "Generating docset ...")
     (-> (create-docset-structure project)
         (copy-docs doc-base-dir)

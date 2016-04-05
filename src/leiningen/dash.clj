@@ -21,10 +21,9 @@
   (codox/codox project)
   (let [doc-base-dir (io/file (get-in project [:codox :output-dir] "doc"))]
     (info "Generating docset ...")
-    (do
-      (-> (create-docset-structure project)
-          (copy-docs doc-base-dir)
-          (transform-docset-html)
-          (create-plist project)
-          (create-db)
-          (process-info (mapcat parse-file (html-files doc-base-dir)))))))
+    (-> (create-docset-structure project)
+        (copy-docs doc-base-dir)
+        (transform-docset-html)
+        (create-plist project)
+        (create-db)
+        (process-info (mapcat parse-file (html-files doc-base-dir))))))

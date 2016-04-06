@@ -77,6 +77,7 @@
       (enlive/at nodes
                  [:#namespaces] scrub
                  [:#header] scrub
-                 [:#vars] scrub)
+                 [:#vars] scrub
+                 [:.sidebar] nil)
       (write file (apply str (enlive/emit* nodes)))))
   docset-dir)

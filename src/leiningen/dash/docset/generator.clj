@@ -22,6 +22,10 @@
                 :subprotocol "sqlite"
                 :subname (.getPath db)}})
 
+(def write [path & chunks]
+  (with-open [f (io/writer path)]
+    (doseq [chunk chunks] (.write f chunk))))
+
 (defn html-files
   "Get all the non-index HTML files at a given base."
   [base-dir]
@@ -52,12 +56,9 @@
 
 (defn create-plist [docset-dir project]
   (let [project-name (:name project)
-        plist (io/file (.getPath docset-dir) ".." ".." "Info.plist")
+        plist-path (io/file (.getPath docset-dir) ".." ".." "Info.plist")
         plist-tpl (slurp (io/resource "Info.plist"))]
-    (FileUtils/writeStringToFile
-      plist
-      (format plist-tpl project-name project-name "clojure")
-      "UTF-8")
+    (write plist-path (format plist-tpl project-name project-name "clojure"))
     docset-dir))
 
 (defn create-db [docset-dir]
@@ -85,5 +86,5 @@
                  [:#namespaces] scrub
                  [:#header] scrub
                  [:#vars] scrub)
-      (FileUtils/writeStringToFile file (apply str (enlive/emit* nodes)) "UTF-8")))
+      (write file (enlive/emit* nodes))))
   docset-dir)

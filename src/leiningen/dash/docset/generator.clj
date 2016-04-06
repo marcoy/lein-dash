@@ -2,7 +2,8 @@
   (:require [clojure.java.io :as io]
             [leiningen.dash.docset.codox.parser :as p :refer :all]
             [net.cgrand.enlive-html :as enlive]
-            [yesql.core :refer [defqueries]])
+            [yesql.core :refer [defqueries]]
+            [clojure.string :as s])
   (:import [java.io File]
            [org.apache.commons.io.filefilter FileFilterUtils
                                              IOFileFilter

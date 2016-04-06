@@ -3,8 +3,7 @@
             [clojure.java.io :as io]
             [leiningen.core.main :refer :all]
             [leiningen.codox :as codox]
-            [leiningen.dash.docset.generator :as g]
-            [clojure.string :as s]))
+            [leiningen.dash.docset.generator :as g]))
 
 (defn dash
   "Generate docset using Codox"

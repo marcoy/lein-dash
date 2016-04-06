@@ -1,19 +1,11 @@
 (ns leiningen.dash.docset.generator
   (:require [clojure.java.io :as io]
-            [leiningen.dash.docset.codox.parser :as p :refer :all]
+            [leiningen.dash.docset.codox.parser :as p]
             [net.cgrand.enlive-html :as enlive]
             [yesql.core :refer [defqueries]]
             [clojure.string :as s])
   (:import [java.io File]
-           [org.apache.commons.io.filefilter FileFilterUtils
-                                             IOFileFilter
-                                             NameFileFilter
-                                             NotFileFilter
-                                             TrueFileFilter
-                                             WildcardFileFilter]
-           [org.apache.commons.io FilenameUtils
-                                  FileUtils
-                                  IOUtils]))
+           [org.apache.commons.io FileUtils]))
 
 (defqueries "docset.sql")
 

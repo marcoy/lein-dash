@@ -47,3 +47,11 @@
       {:name (enlive/text (selectf node [:h3]))
        :type "Function"
        :path (str "#" (id-attr node))})))
+
+(def some-info
+  (some-fn namespace-info
+           fn-info
+           var-info
+           protocol-info
+           macro-info
+           multimethod-info))

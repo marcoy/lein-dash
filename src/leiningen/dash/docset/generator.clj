@@ -1,6 +1,6 @@
 (ns leiningen.dash.docset.generator
   (:require [clojure.java.io :as io]
-            [leiningen.dash.docset.codox.parser :refer :all]
+            [leiningen.dash.docset.codox.parser :as p :refer :all]
             [net.cgrand.enlive-html :as enlive]
             [yesql.core :refer [defqueries]])
   (:import [java.io File]
@@ -40,11 +40,10 @@
 (defn parse-file [^File html-file]
   (let [nodes (enlive/html-resource html-file)]
     (map #(update-in
-            (some-info % [namespace-info fn-info var-info protocol-info macro-info
-                          multimethod-info])
-            [:path]
-            (fn [id] (str (FilenameUtils/getName (.getAbsolutePath html-file))
-                          id)))
+           (p/some-info %)
+           [:path]
+           (fn [id] (str (FilenameUtils/getName (.getAbsolutePath html-file))
+                         id)))
          (enlive/select nodes [[:div :#content] :.anchor]))))
 
 (defn create-docset-structure [project]

@@ -45,7 +45,7 @@
         project-version (:version project)
         docset-dir (File. (format "%s-%s.docset/Contents/Resources/Documents"
                                   project-name project-version))]
-    (FileUtils/forceMkdir docset-dir)
+    (.mkdirs docset-dir)
     docset-dir))
 
 (defn copy-docs [docset-dir doc-base-dir]

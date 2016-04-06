@@ -14,9 +14,9 @@
                 :subprotocol "sqlite"
                 :subname (.getPath db)}})
 
-(defn write [path & chunks]
+(defn write [path body]
   (with-open [f (io/writer path)]
-    (doseq [chunk chunks] (.write f chunk))))
+    (.write f body)))
 
 (defn html-files
   "Get all the non-index HTML files at a given base."
@@ -77,5 +77,5 @@
                  [:#namespaces] scrub
                  [:#header] scrub
                  [:#vars] scrub)
-      (write file (enlive/emit* nodes))))
+      (write file (apply str (enlive/emit* nodes)))))
   docset-dir)

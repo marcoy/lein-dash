@@ -42,8 +42,8 @@
 (defn create-docset-structure [project]
   (let [project-name (:name project)
         project-version (:version project)
-        docset-dir (File. (format "%s-%s.docset/Contents/Resources/Documents"
-                                  project-name project-version))]
+        docset-dir (io/file (format "%s-%s.docset/Contents/Resources/Documents"
+                                    project-name project-version))]
     (.mkdirs docset-dir)
     docset-dir))
 

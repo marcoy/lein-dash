@@ -21,6 +21,14 @@
    :subprotocol "sqlite"
    :subname path})
 
+(defn html-files
+  "Get all the non-index HTML files at a given base."
+  [base-dir]
+  (filter (fn [f] (let [name (.getName f)]
+                    (and (s/ends-with? name "html")
+                         (not (s/ends-with? name "index.html")))))
+          (file-seq base-dir)))
+
 (defn some-info [node fns]
   (let [[f & fs] fns]
     (if-some [info (f node)]

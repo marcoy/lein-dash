@@ -7,10 +7,11 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :dependencies [[codox "0.8.11"]
-                 [enlive "1.1.5"]
-                 [org.xerial/sqlite-jdbc "3.8.7"]
-                 [yesql "0.4.0"]]
+  :dependencies [[org.clojure/clojure "1.8.0"]
+                 [lein-codox "0.9.4"]
+                 [enlive "1.1.6"]
+                 [org.xerial/sqlite-jdbc "3.8.11.2"]
+                 [yesql "0.5.2"]]
 
   :min-lein-version "2.5.0"
 

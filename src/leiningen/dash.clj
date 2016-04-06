@@ -2,32 +2,19 @@
   (:require [clojure.pprint :refer [pprint]]
             [clojure.java.io :as io]
             [leiningen.core.main :refer :all]
-            [leiningen.doc :as codox]
-            [leiningen.dash.docset.generator :refer :all])
-  (:import [org.apache.commons.io.filefilter FileFilterUtils
-                                             IOFileFilter
-                                             NameFileFilter
-                                             NotFileFilter
-                                             TrueFileFilter
-                                             WildcardFileFilter]
-           [org.apache.commons.io FileUtils]))
+            [leiningen.codox :as codox]
+            [leiningen.dash.docset.generator :as g]))
 
 (defn dash
   "Generate docset using Codox"
   [project & args]
-  (do
-    (info "Generating documentation with Codox ...")
-    (codox/doc project)
-    (let [doc-base-dir (io/file (get-in project [:codox :output-dir] "doc"))
-          files-filter (FileFilterUtils/and
-                         (into-array IOFileFilter [(WildcardFileFilter. "*.html")
-                                                   (NotFileFilter. (NameFileFilter. "index.html"))]))
-          files (iterator-seq (FileUtils/iterateFiles doc-base-dir files-filter TrueFileFilter/TRUE))]
-      (info "Generating docset ...")
-      (do
-        (-> (create-docset-structure project)
-            (copy-docs doc-base-dir)
-            (transform-docset-html)
-            (create-plist project)
-            (create-db)
-            (process-info (mapcat parse-file files)))))))
+  (info "Generating documentation with Codox ...")
+  (codox/codox project)
+  (let [doc-base-dir (io/file (get-in project [:codox :output-dir] "target/doc"))]
+    (info "Generating docset ...")
+    (-> (g/create-docset-structure project)
+        (g/copy-docs doc-base-dir)
+        (g/transform-docset-html)
+        (g/create-plist project)
+        (g/create-db)
+        (g/process-info (mapcat g/parse-file (g/html-files doc-base-dir))))))

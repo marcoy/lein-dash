@@ -64,14 +64,14 @@
   (let [db (io/file (.getPath docset-dir) ".." "docSet.dsidx")]
     (if (.exists db)
       (FileUtils/deleteQuietly db))
-    (create-table! (db-spec (.getPath db)))
-    (create-index! (db-spec (.getPath db)))
+    (create-table! {} {:connection (db-spec (.getPath db))})
+    (create-index! {} {:connection (db-spec (.getPath db))})
     db))
 
 (defn process-info [db-path infos]
   (let [spec (db-spec (.getPath db-path))]
     (doseq [i infos]
-      (insert-info! spec (:name i) (:type i) (:path i)))
+      (insert-info! (select-keys i [:name :type :path]) {:connection spec}))
     db-path))
 
 (defn transform-docset-html

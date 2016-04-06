@@ -17,10 +17,10 @@
 
 (defqueries "docset.sql")
 
-(defn db-spec [path]
-  {:classname "org.sqlite.JDBC"
-   :subprotocol "sqlite"
-   :subname path})
+(defn db-opts [db]
+  {:connection {:classname "org.sqlite.JDBC"
+                :subprotocol "sqlite"
+                :subname (.getPath db)}})
 
 (defn html-files
   "Get all the non-index HTML files at a given base."
@@ -63,17 +63,16 @@
 
 (defn create-db [docset-dir]
   (let [db (io/file (.getPath docset-dir) ".." "docSet.dsidx")
-        opts {:connection (db-spec (.getPath db))}]
+        opts (db-opts db)]
     (.delete db)
     (create-table! {} opts)
     (create-index! {} opts)
     db))
 
 (defn process-info [db-path infos]
-  (let [opts {:connection (db-spec (.getPath db-path))}]
-    (doseq [i infos]
-      (insert-info! (select-keys i [:name :type :path]) opts))
-    db-path))
+  (doseq [i infos]
+    (insert-info! (select-keys i [:name :type :path]) (db-opts db-path)))
+  db-path)
 
 (defn transform-docset-html
   "Clean up the Codox documentation so it looks properly in Dash."

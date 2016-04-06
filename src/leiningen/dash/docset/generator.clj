@@ -62,7 +62,7 @@
 (defn create-plist [docset-dir project]
   (let [project-name (:name project)
         plist (io/file (.getPath docset-dir) ".." ".." "Info.plist")
-        plist-tpl (IOUtils/toString (io/input-stream (io/resource "Info.plist")) "UTF-8")]
+        plist-tpl (slurp (io/resource "Info.plist"))]
     (FileUtils/writeStringToFile
       plist
       (format plist-tpl project-name project-name "clojure")

@@ -22,7 +22,7 @@
                 :subprotocol "sqlite"
                 :subname (.getPath db)}})
 
-(def write [path & chunks]
+(defn write [path & chunks]
   (with-open [f (io/writer path)]
     (doseq [chunk chunks] (.write f chunk))))
 

@@ -40,9 +40,9 @@
 (defn parse-file [^File html-file]
   (let [nodes (enlive/html-resource html-file)]
     (map (fn [node]
-           (update-in (p/some-info node)
-                      [:path]
-                      (fn [id] (str (FilenameUtils/getName (.getAbsolutePath html-file))
+           (update (p/some-info node)
+                   :path
+                   (fn [id] (str (FilenameUtils/getName (.getAbsolutePath html-file))
                                     id))))
          (enlive/select nodes [[:div :#content] :.anchor]))))
 

@@ -39,11 +39,11 @@
 
 (defn parse-file [^File html-file]
   (let [nodes (enlive/html-resource html-file)]
-    (map #(update-in
-           (p/some-info %)
-           [:path]
-           (fn [id] (str (FilenameUtils/getName (.getAbsolutePath html-file))
-                         id)))
+    (map (fn [node]
+           (update-in (p/some-info node)
+                      [:path]
+                      (fn [id] (str (FilenameUtils/getName (.getAbsolutePath html-file))
+                                    id))))
          (enlive/select nodes [[:div :#content] :.anchor]))))
 
 (defn create-docset-structure [project]

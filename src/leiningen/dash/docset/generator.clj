@@ -85,19 +85,14 @@
 (defn transform-docset-html
   "Clean up the Codox documentation so it looks properly in Dash."
   [docset-dir]
-  (let [f-filter (FileFilterUtils/and
-                   (into-array IOFileFilter [(WildcardFileFilter. "*.html")
-                                             (NotFileFilter. (NameFileFilter. "index.html"))]))
-        files (iterator-seq
-                (FileUtils/iterateFiles docset-dir f-filter TrueFileFilter/TRUE))]
-    (doseq [file files]
-      (as-> (enlive/html-resource file) nodes
-        (enlive/at nodes
-                   [:#namespaces] (enlive/do-> (enlive/content "")
-                                               (enlive/remove-attr :id :class))
-                   [:#header] (enlive/do-> (enlive/content "")
-                                           (enlive/remove-attr :id :class))
-                   [:#vars] (enlive/do-> (enlive/content "")
-                                         (enlive/remove-attr :id :class)))
-        (FileUtils/writeStringToFile file (apply str (enlive/emit* nodes)) "UTF-8")))
-    docset-dir))
+  (doseq [file (html-files docset-dir)]
+    (as-> (enlive/html-resource file) nodes
+      (enlive/at nodes
+                 [:#namespaces] (enlive/do-> (enlive/content "")
+                                             (enlive/remove-attr :id :class))
+                 [:#header] (enlive/do-> (enlive/content "")
+                                         (enlive/remove-attr :id :class))
+                 [:#vars] (enlive/do-> (enlive/content "")
+                                       (enlive/remove-attr :id :class)))
+      (FileUtils/writeStringToFile file (apply str (enlive/emit* nodes)) "UTF-8")))
+  docset-dir)

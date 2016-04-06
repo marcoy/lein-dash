@@ -74,17 +74,17 @@
     (insert-info! (select-keys i [:name :type :path]) (db-opts db-path)))
   db-path)
 
+(def ^:private scrub
+  (enlive/do-> (enlive/content "") (enlive/remove-attr :id :class)))
+
 (defn transform-docset-html
   "Clean up the Codox documentation so it looks properly in Dash."
   [docset-dir]
   (doseq [file (html-files docset-dir)]
     (as-> (enlive/html-resource file) nodes
       (enlive/at nodes
-                 [:#namespaces] (enlive/do-> (enlive/content "")
-                                             (enlive/remove-attr :id :class))
-                 [:#header] (enlive/do-> (enlive/content "")
-                                         (enlive/remove-attr :id :class))
-                 [:#vars] (enlive/do-> (enlive/content "")
-                                       (enlive/remove-attr :id :class)))
+                 [:#namespaces] scrub
+                 [:#header] scrub
+                 [:#vars] scrub)
       (FileUtils/writeStringToFile file (apply str (enlive/emit* nodes)) "UTF-8")))
   docset-dir)

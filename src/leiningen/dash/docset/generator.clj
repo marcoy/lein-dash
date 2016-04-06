@@ -63,8 +63,7 @@
 (defn create-db [docset-dir]
   (let [db (io/file (.getPath docset-dir) ".." "docSet.dsidx")
         opts {:connection (db-spec (.getPath db))}]
-    (if (.exists db)
-      (FileUtils/deleteQuietly db))
+    (.delete db)
     (create-table! {} opts)
     (create-index! {} opts)
     db))

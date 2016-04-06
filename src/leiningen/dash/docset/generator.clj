@@ -39,11 +39,10 @@
                    (fn [id] (str (.getName html-file) id))))
          (enlive/select nodes [[:div :#content] :.anchor]))))
 
-(defn create-docset-structure [project]
-  (let [project-name (:name project)
-        project-version (:version project)
-        docset-dir (io/file (format "%s-%s.docset/Contents/Resources/Documents"
-                                    project-name project-version))]
+(defn create-docset-structure [{:keys [name version]}]
+  (let [docset-dir (-> "%s-%s.docset/Contents/Resources/Documents"
+                       (format name version)
+                       (io/file))]
     (.mkdirs docset-dir)
     docset-dir))
 

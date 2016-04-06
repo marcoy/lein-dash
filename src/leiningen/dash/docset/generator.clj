@@ -61,7 +61,7 @@
     db))
 
 (defn process-info [db-path infos]
-  (doseq [{:keys [name type path]} infos]
+  (doseq [i infos]
     (let [row (apply hash-map (for [k [:name :type :path]] [k (k i)]))]
       (insert-info! row (db-opts db-path))))
   db-path)

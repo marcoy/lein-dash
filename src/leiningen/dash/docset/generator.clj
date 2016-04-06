@@ -54,11 +54,10 @@
   (FileUtils/copyDirectory doc-base-dir docset-dir)
   docset-dir)
 
-(defn create-plist [docset-dir project]
-  (let [project-name (:name project)
-        plist-path (io/file (.getPath docset-dir) ".." ".." "Info.plist")
+(defn create-plist [docset-dir {:keys [name]}]
+  (let [plist-path (io/file (.getPath docset-dir) ".." ".." "Info.plist")
         plist-tpl (slurp (io/resource "Info.plist"))]
-    (write plist-path (format plist-tpl project-name project-name "clojure"))
+    (write plist-path (format plist-tpl name name "clojure"))
     docset-dir))
 
 (defn create-db [docset-dir]

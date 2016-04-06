@@ -31,13 +31,6 @@
                    (not (s/ends-with? name "index.html")))))
           (file-seq base-dir)))
 
-(defn some-info [node fns]
-  (let [[f & fs] fns]
-    (if-some [info (f node)]
-      info
-      (if (some? fs)
-        (recur node fs)))))
-
 (defn parse-file [^File html-file]
   (let [nodes (enlive/html-resource html-file)]
     (map (fn [node]

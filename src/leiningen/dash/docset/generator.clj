@@ -36,8 +36,7 @@
     (map (fn [node]
            (update (p/some-info node)
                    :path
-                   (fn [id] (str (FilenameUtils/getName (.getAbsolutePath html-file))
-                                    id))))
+                   (fn [id] (str (.getName html-file) id))))
          (enlive/select nodes [[:div :#content] :.anchor]))))
 
 (defn create-docset-structure [project]

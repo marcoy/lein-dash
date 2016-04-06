@@ -61,17 +61,18 @@
     docset-dir))
 
 (defn create-db [docset-dir]
-  (let [db (io/file (.getPath docset-dir) ".." "docSet.dsidx")]
+  (let [db (io/file (.getPath docset-dir) ".." "docSet.dsidx")
+        opts {:connection (db-spec (.getPath db))}]
     (if (.exists db)
       (FileUtils/deleteQuietly db))
-    (create-table! {} {:connection (db-spec (.getPath db))})
-    (create-index! {} {:connection (db-spec (.getPath db))})
+    (create-table! {} opts)
+    (create-index! {} opts)
     db))
 
 (defn process-info [db-path infos]
-  (let [spec (db-spec (.getPath db-path))]
+  (let [opts {:connection (db-spec (.getPath db-path))}]
     (doseq [i infos]
-      (insert-info! (select-keys i [:name :type :path]) {:connection spec}))
+      (insert-info! (select-keys i [:name :type :path]) opts))
     db-path))
 
 (defn transform-docset-html
